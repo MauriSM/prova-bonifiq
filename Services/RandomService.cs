@@ -3,13 +3,17 @@
 	public class RandomService
 	{
 		int seed;
+
 		public RandomService()
 		{
 			seed = Guid.NewGuid().GetHashCode();
 		}
 		public int GetRandom()
 		{
-			return new Random(seed).Next(100);
+			Random Rand = new Random();
+			int retorno = 0;
+			retorno = Rand.Next(0,100);
+			return retorno;
 		}
 
 	}

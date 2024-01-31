@@ -15,7 +15,10 @@ namespace ProvaPub.Services
 
         public CustomerList ListCustomers(int page)
         {
-            return new CustomerList() { HasNext = false, TotalCount = 10, Customers = _ctx.Customers.ToList() };
+            List<Customer> Customers = _ctx.Customers.Skip((page - 1) * 10).Take(10).ToList();
+            bool hasNext = _ctx.Customers.OrderBy(x => x.Id).Last() == _ctx.Customers.OrderBy(s => s.Id).Skip((page - 1) * 10).Take(10).Last() ? false : true;
+
+            return new CustomerList() { HasNext = hasNext, TotalCount = _ctx.Customers.Count(), Customers = _ctx.Customers.ToList() };
         }
 
         public async Task<bool> CanPurchase(int customerId, decimal purchaseValue)
